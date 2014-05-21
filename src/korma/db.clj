@@ -20,7 +20,8 @@
            test-connection-query
            idle-connection-test-period
            test-connection-on-checkin
-           test-connection-on-checkout]
+           test-connection-on-checkout
+           connection-customizer-class-name]
     :or {excess-timeout (* 30 60)
          idle-timeout (* 3 60 60)
          minimum-pool-size 3
@@ -28,7 +29,8 @@
          test-connection-query nil
          idle-connection-test-period 0
          test-connection-on-checkin false
-         test-connection-on-checkout false}
+         test-connection-on-checkout false
+         connection-customizer-class-name nil}
     :as spec}]
   {:datasource (doto (ComboPooledDataSource.)
                  (.setDriverClass classname)
@@ -42,7 +44,8 @@
                  (.setIdleConnectionTestPeriod idle-connection-test-period)
                  (.setTestConnectionOnCheckin test-connection-on-checkin)
                  (.setTestConnectionOnCheckout test-connection-on-checkout)
-                 (.setPreferredTestQuery test-connection-query))})
+                 (.setPreferredTestQuery test-connection-query)
+                 (.setConnectionCustomizerClassName connection-customizer-class-name))})
 
 (defn delay-pool
   "Return a delay for creating a connection pool for the given spec."
